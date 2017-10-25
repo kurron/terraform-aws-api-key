@@ -32,3 +32,13 @@ variable "steady_state_limit" {
     type = "string"
     description = "The API request steady-state rate limit, e.g. 100."
 }
+
+variable "api_gateway_id" {
+    type = "string"
+    description = "ID of the API Gateway to bind the plan to, e.g. d82wq5g0sk."
+}
+
+variable "deployment_stage_name" {
+    type = "string"
+    description = "Name of the deployment stage to bind the plan to, e.g. development."
+}

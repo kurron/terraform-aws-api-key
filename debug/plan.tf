@@ -3,16 +3,36 @@ terraform {
     backend "s3" {}
 }
 
+data "terraform_remote_state" "api_gateway" {
+    backend = "s3"
+    config {
+        bucket = "transparent-test-terraform-state"
+        key    = "us-west-2/debug/aplication-services/api-gateway/terraform.tfstate"
+        region = "us-east-1"
+    }
+}
+
+data "terraform_remote_state" "api_gateway_binding" {
+    backend = "s3"
+    config {
+        bucket = "transparent-test-terraform-state"
+        key    = "us-west-2/debug/aplication-services/api-gateway-binding/terraform.tfstate"
+        region = "us-east-1"
+    }
+}
+
 module "api_key" {
     source = "../"
 
-    region             = "us-west-2"
-    key_name           = "Debug"
-    key_description    = "Just testing the Terraform module"
-    quota_limit        = "10000"
-    quota_period       = "DAY"
-    burst_limit        = "100"
-    steady_state_limit = "10"
+    region                = "us-west-2"
+    key_name              = "Debug"
+    key_description       = "Just testing the Terraform module"
+    quota_limit           = "10000"
+    quota_period          = "DAY"
+    burst_limit           = "100"
+    steady_state_limit    = "10"
+    api_gateway_id        = "${data.terraform_remote_state.api_gateway.api_gateway_id}"
+    deployment_stage_name = "${data.terraform_remote_state.api_gateway_binding.deployment_stage_name}"
 }
 
 output "plan_key_id" {

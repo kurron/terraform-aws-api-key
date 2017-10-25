@@ -24,6 +24,10 @@ resource "aws_api_gateway_usage_plan" "usage_plan" {
         burst_limit = "${var.burst_limit}"
         rate_limit  = "${var.steady_state_limit}"
     }
+    api_stages {
+        api_id = "${var.api_gateway_id}"
+        stage  = "${var.deployment_stage_name}"
+    }
 }
 
 resource "aws_api_gateway_usage_plan_key" "usage_plan_key" {
