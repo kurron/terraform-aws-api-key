@@ -6,7 +6,7 @@ terraform {
 module "api_key" {
     source = "../"
 
-    region             = "us-east-1"
+    region             = "us-west-2"
     key_name           = "Debug"
     key_description    = "Just testing the Terraform module"
     quota_limit        = "10000"
