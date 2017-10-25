@@ -1,6 +1,6 @@
 # Overview
-This Terraform module creates an API Gateway with not service bindings.
-The bindings are added using [another module](https://github.com/kurron/terraform-aws-api-gateway-binding).
+This Terraform module creates an API Gateway API Key, complete with restrictions
+such as throttling.
 
 # Prerequisites
 * [Terraform](https://terraform.io/) installed and working

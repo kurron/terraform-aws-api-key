@@ -3,45 +3,34 @@ terraform {
     backend "s3" {}
 }
 
-provider "aws" {
-    region = "${var.region}"
-}
-
-variable "region" {
-    type = "string"
-    default = "us-east-1"
-}
-
-variable "domain_name" {
-    type = "string"
-    default = "transparent.engineering"
-}
-
-data "aws_acm_certificate" "certificate" {
-    domain   = "*.${var.domain_name}"
-    statuses = ["ISSUED"]
-}
-
-data "aws_route53_zone" "selected" {
-    name         = "${var.domain_name}."
-    private_zone = false
-}
-
-module "api_gateway" {
+module "api_key" {
     source = "../"
 
-    region          = "us-west-2"
-    api_name        = "Debug Proxy"
-    api_description = "A faux proxy just to test out the Terraform module"
-    domain_name     = "debug.transparent.engineering"
-    certificate_arn = "${data.aws_acm_certificate.certificate.arn}"
-    hosted_zone_id  = "${data.aws_route53_zone.selected.zone_id}"
+    region             = "us-east-1"
+    key_name           = "Debug"
+    key_description    = "Just testing the Terraform module"
+    quota_limit        = "10000"
+    quota_period       = "DAY"
+    burst_limit        = "100"
+    steady_state_limit = "10"
 }
 
-output "api_gateway_id" {
-    value = "${module.api_gateway.api_gateway_id}"
+output "plan_key_id" {
+    value = "${module.api_key.plan_key_id}"
 }
 
-output "api_gateway_root_resource_id" {
-    value = "${module.api_gateway.api_gateway_root_resource_id}"
+output "key_id" {
+    value = "${module.api_key.key_id}"
+}
+
+output "usage_plan_id" {
+    value = "${module.api_key.usage_plan_id}"
+}
+
+output "usage_plan_key_name" {
+    value = "${module.api_key.usage_plan_key_name}"
+}
+
+output "api_key_value" {
+    value = "${module.api_key.api_key_value}"
 }

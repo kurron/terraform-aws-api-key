@@ -3,27 +3,32 @@ variable "region" {
     description = "The AWS region to deploy into (e.g. us-east-1)"
 }
 
-variable "api_name" {
+variable "key_name" {
     type = "string"
-    description = "Name of the API"
+    description = "Name of the API key."
 }
 
-variable "api_description" {
+variable "key_description" {
     type = "string"
-    description = "Short description about the API"
+    description = "Short description of the key's intended use."
 }
 
-variable "domain_name" {
+variable "quota_limit" {
     type = "string"
-    description = "Custom domain name to assign to the gateway, e.g. api-gateway.example.com"
+    description = "The maximum number of requests that can be made in a given time period, e.g. 200."
 }
 
-variable "certificate_arn" {
+variable "quota_period" {
     type = "string"
-    description = "ARN of the Amazon managed TLS certificate, e.g. arn:aws:acm:us-east-1:037083514056:certificate/foo"
+    description = "The time period in which the limit applies. Valid values are DAY, WEEK or MONTH."
 }
 
-variable "hosted_zone_id" {
+variable "burst_limit" {
     type = "string"
-    description = "The ID of the hosted zone to contain this record."
+    description = "The maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity, e.g. 500."
+}
+
+variable "steady_state_limit" {
+    type = "string"
+    description = "The API request steady-state rate limit, e.g. 100."
 }
